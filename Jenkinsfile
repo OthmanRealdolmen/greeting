@@ -1,11 +1,10 @@
-pipeline{
-    agent : any;
-
-    stages{
-        stage('Build'){
-            steps {
-                sh 'mvn clean verify'
+pipeline {
+     agent any
+     stages {
+            stage('Build') {
+                steps {
+                    sh 'mvn clean verify'
+                }
             }
-        }
-    }
+     }
 }
