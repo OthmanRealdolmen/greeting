@@ -7,10 +7,9 @@ pipeline {
                 }
             }
             stage('deploy'){
-
-                when(
+                when{
                     branch 'main'
-                )
+                }
                 steps {
                 deploy adapters: [
                     tomcat9(
