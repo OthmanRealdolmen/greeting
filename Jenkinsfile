@@ -1,10 +1,36 @@
 pipeline {
      agent any
      stages {
-            stage('Build') {
+            stage('Build, Test') {
+                when {
+                    not{
+                        branch 'main'
+                    }
+
+                }
                 steps {
                     bat 'mvn clean verify'
                 }
+            }
+            stage('Build, Test, Release') {
+                 when{
+                      branch 'main'
+                 }
+                  steps {
+                       rtMavenDeployer (
+                         id: 'deployer',
+                         serverId: 'artifactory',
+                         releaseRepo: 'maven-libs-release-local',
+                         snapshotRepo: 'maven-libs-snapshot-local'
+                       )
+
+                       rtMavenRun (
+                          tool: 'Maven 3.8.4',
+                          pom: 'pom.xml',
+                          goals: 'clean install',
+                          deployerId: 'deployer',
+                       )
+                  }
             }
             stage('deploy'){
                 when{
