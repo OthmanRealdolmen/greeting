@@ -7,6 +7,7 @@ pipeline {
                 }
             }
             stage('deploy'){
+
                 when(
                     branch 'main'
                 )
